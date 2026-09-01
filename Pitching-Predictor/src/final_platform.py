@@ -32,7 +32,7 @@ pitch_map = {
     'EP': 15   # Eepush
 }
 
-matchup_df=pd.read_csv('matchup_csv')
+matchup_df=pd.read_csv('matchup.csv')
 
 def hs_ab():
     temp=int(input("What is the temperature of the game?"))
@@ -67,7 +67,7 @@ def hs_ab():
 
     
     
-    matchup_df.to_csv('matchup_csv', index=False)
+    matchup_df.to_csv('matchup.csv', index=False)
     
     
 def new_matchup(p_name, b_name):
