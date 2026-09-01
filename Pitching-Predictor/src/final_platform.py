@@ -56,15 +56,16 @@ def hs_ab():
     
     ab_results=pitch_by_pitch(temp, elev, hist, pitch_list, pitch_vels)
     
-    
     idx = matchup_df.index[(matchup_df['p_name'] == p_name) & (matchup_df['b_name'] == b_name)]
-    
+
     if isinstance(ab_results, pd.Series):
         matchup_df.loc[idx[0]] = ab_results.reindex(matchup_df.columns)
+    else:
+        update_model(ab_results[0])
+
+        matchup_df.loc[idx[0]] = ab_results[1].reindex(matchup_df.columns)
+
     
-    update_model(ab_results[0])
-    
-    matchup_df.loc[idx[0]] = ab_results[1].reindex(matchup_df.columns)
     
     matchup_df.to_csv('matchup_csv', index=False)
     
@@ -269,12 +270,12 @@ def pitch_by_pitch(temp, elev, hist, pitch_list, pitch_vels):
                         hist['fb_abs']= hist['fb_abs']+1
                     if next_pitch[0]>4 and next_pitch[0]<14:
                         hist['bb_abs']= hist['bb_abs']+1
-                    if hit_ans.strip().lower()== 'yes':
-                        hist['os_hits']= hist['os_hits']+1
+                    if next_pitch[0]>=14:
+                        hist['os_abs']= hist['os_abs']+1
                     
                     break
         
-        term_ans=int(input("Type 1 if the AB has ended"))
+        term_ans=int(input("Type 1 if the AB has ended. 0 if it didn't"))
         if term_ans==1:
             break
         
